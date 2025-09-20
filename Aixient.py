@@ -825,7 +825,24 @@ if st.session_state.page == "admin_panel" and st.session_state.username == ADMIN
     st.markdown('<p class="standard">Admin Panel</p>', unsafe_allow_html=True)
     st.markdown("---")
     st.subheader("Pending Submissions")
+    def get_public_ip():
+    """
+    Fetches the public IP address.
+    
+    Returns:
+        str: The public IP address or None if the request fails.
+    """
+    try:
+        response = requests.get('https://api64.ipify.org?format=json')
+        response.raise_for_status()
+        ip_address = response.json().get('ip')
+        return ip_address
+    except requests.exceptions.RequestException:
+        return None
+        st.write(get_public_ip)
 
+# Call the function and handle the result in the Streamlit app's main script
+current_ip = get_public_ip()
     # Get all websites, including those not yet approved
     all_links, all_descriptions, all_freeness, all_tags, all_dates, all_usernames, all_status = get_all_website_data(df, include_all=True)
 
@@ -1098,4 +1115,5 @@ Key Features and Purpose:
         st.write("For now, the best way to get updates and send feedback is through my YouTube channel, which I keep updated on new features and other developments.")
 
 if st.session_state.page == "favorites":
+
     st.write("Not a feature . . . Yet . . . ❤️👁️‍🗨️⭐🔥")
